@@ -6,7 +6,7 @@ tags:
   - プロトタイプ
   - prototype
 private: false
-updated_at: '2025-11-22T11:21:16+09:00'
+updated_at: '2025-11-22T11:36:43+09:00'
 id: c898d191dd012a22b631
 organization_url_name: null
 slide: false
