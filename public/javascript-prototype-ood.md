@@ -1,5 +1,5 @@
 ---
-title: javascript-prototype-ood
+title: JavaScriptのプロトタイプベースOOPについて
 tags:
   - JavaScript
   - オブジェクト指向
@@ -12,7 +12,7 @@ organization_url_name: null
 slide: false
 ignorePublish: false
 ---
-# JavaScriptのプロトタイプベースOOPについて
+# はじめに
 
 JavaScriptは**プロトタイプベース**のオブジェクト指向プログラミング言語です。これは、JavaやC++のような**クラスベース**のオブジェクト指向とは異なるアプローチを取っています。この記事では、JavaScriptのプロトタイプベースOOPの仕組みと特徴を解説します。
 
