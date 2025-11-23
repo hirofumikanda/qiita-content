@@ -1,14 +1,14 @@
 ---
 title: 地図タイルAPIがクエリ文字列でアクセストークンを使う技術的理由
 tags:
-  - 地図タイル
   - API
+  - Security
   - CORS
-  - セキュリティ
   - パフォーマンス
+  - 地図タイル
 private: false
-updated_at: ''
-id: null
+updated_at: '2025-11-23T15:46:47+09:00'
+id: 9e4e301740c1f8f5ac0f
 organization_url_name: null
 slide: false
 ignorePublish: false
