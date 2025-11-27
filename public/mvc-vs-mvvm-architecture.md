@@ -1,14 +1,14 @@
 ---
 title: MVCとMVVMアーキテクチャの違いを理解する
 tags:
-  - アーキテクチャ
-  - MVC
+  - mvc
   - MVVM
-  - 設計パターン
+  - アーキテクチャ
   - ソフトウェア設計
+  - 設計パターン
 private: false
-updated_at: '2025-11-27T00:00:00+09:00'
-id: null
+updated_at: '2025-11-27T11:06:06+09:00'
+id: a01a0eeef235eeef7f73
 organization_url_name: null
 slide: false
 ignorePublish: false
