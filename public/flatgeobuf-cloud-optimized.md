@@ -2,13 +2,13 @@
 title: 'FlatGeobuf: Cloud-Optimized な地理空間データフォーマットとは'
 tags:
   - GIS
+  - geojson
   - 地理空間情報
-  - GeoJSON
-  - FlatGeobuf
+  - flatgeobuf
   - CloudOptimized
 private: false
-updated_at: '2025-11-29T00:00:00+09:00'
-id: null
+updated_at: '2025-11-29T16:46:41+09:00'
+id: 11fa6e0fe72546f9fbb1
 organization_url_name: null
 slide: false
 ignorePublish: false
