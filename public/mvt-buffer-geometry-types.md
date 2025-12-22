@@ -1,12 +1,12 @@
 ---
-title: 'MVT（Mapbox Vector Tile）のバッファーに関する考察'
+title: MVT（Mapbox Vector Tile）のバッファーに関する考察
 tags:
   - GIS
   - vectortile
   - MapLibre
 private: false
-updated_at: '2025-12-22T00:00:00+09:00'
-id: null
+updated_at: '2025-12-22T11:33:50+09:00'
+id: 2b45e00a49141afcae0d
 organization_url_name: null
 slide: false
 ignorePublish: false
