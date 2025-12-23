@@ -163,7 +163,7 @@ Composite Sourcesでタイルリクエストしたものを、MapLibre GL JSで�
 
 しばらくこの事象の原因がわからなかったのですが、[Martinのissue](https://github.com/maplibre/martin/issues/1488)にヒントがありました。
 
-どうやら圧縮されたタイルデータをデータソースにしている場合、使用するレンダラーによっては2つ目以降のレイヤ（タイルセット）が表示されない事象があるようです。
+どうやら圧縮されたタイルデータをデータソースにしている場合、使用するレンダラーによって（？）は2つ目以降のレイヤ（タイルセット）が表示されない事象が発生するようです。
 
 ちなみにQGISで試してみても同様でした。
 
@@ -307,9 +307,33 @@ composite sourcesを利用する場合に限り、未圧縮でデータソース
 
 簡易的に、curlを使ってhttpリクエストを投げてみて、レスポンスが返ってくるまでの時間を見てみたいと思います。
 
+テストを実施する前にMartinのキャッシュを無効化しておきます。
+設定ファイルにcache_size_mb: 0を追記します。
+
+```yml
+listen_addresses: '0.0.0.0:3000'
+
+cache_size_mb: 0
+
+mbtiles:
+  sources:
+    building: ./data/overturemaps_building.mbtiles
+    building_d: ./data/overturemaps_building_decompressed.mbtiles
+    transportation: ./data/overturemaps_transportation.mbtiles
+    transportation_d: ./data/overturemaps_transportation_decompressed.mbtiles
+    landuse: ./data/overturemaps_landuse.mbtiles
+    landuse_d: ./data/overturemaps_landuse_decompressed.mbtiles
+```
+
+これで、Martinのキャッシュが効かなくなります。Martinを再起動しておきます。
+
+```bash
+$ martin --config ./config.yml
+```
+
 まず、通常の個別のタイルセットへのリクエストでかかる時間を以下のコマンドで測定します。
 
-gzip圧縮されたタイルセットに対してリクエストするのが通常と思われるため、そのようにしています。また、Martinはgzip圧縮されたタイルデータをそのまま返していることに注意してください（Martinで圧縮処理はしていない）。
+gzip圧縮されたタイルセットに対してリクエストするのが通常と思われるため、そのようにしています。
 
 ```bash
 - building
@@ -343,7 +367,7 @@ $ time curl 'http://localhost:3000/building_d,transportation_d,landuse_d/13/7275
 
 結果をまとめると下表のようになりました。
 
-- 個別
+- 個別タイルセット
 
   | 種別 | タイルサイズ | 実行時間 |
   |---------|----------------|---------|
@@ -360,9 +384,9 @@ $ time curl 'http://localhost:3000/building_d,transportation_d,landuse_d/13/7275
 
 ローカルホストで実行しているため、ネットワーク起因のレイテンシーはありません。
 
-**composite sourcesの圧縮なし**と**個別タイル**の結果を比較すると、おおよそ2倍程度の差があります。これが3つのデータソース（MBTiles）からタイルを取り出して、合成することによりかかる時間の差異といえそうです。composite sourcesでは、ファイルI/Oが3倍になることを考えると、**合成の処理にはほとんど時間がかかっていない**と思われます。
+**composite sourcesの圧縮なし**と**個別タイルセット**の結果を比較すると、おおよそ20ms強の差があります。これが3つのデータソース（MBTiles）からタイルを取り出して、合成することによりかかる時間の差異といえます。composite sourcesでは、ファイルI/Oが3倍になることを考えると、**合成の処理にはほとんど時間がかかっていない**と思われます。
 
-また、**composite sourcesの圧縮あり**と**圧縮なし**の結果を比較すると、100ms弱の差があります。
+一方、**composite sourcesの圧縮あり**と**圧縮なし**の結果を比較すると、100ms弱の差があります。
 これが合成後のタイルをgzip圧縮するのにかかる時間となります。
 
 ### 考察
@@ -373,7 +397,7 @@ composite sourcesの圧縮なしの方であれば、パフォーマンス的に
 
 他方、（モダンブラウザがそうであるように）Accept-Encoding付きでリクエストする場合、Martinで圧縮処理が駆動しますが、上の結果で確認したとおりパフォーマンスが大幅に劣化します。
 
-以上から、composite sourcesをWebで利用する場合、gzip圧縮の効率化を検討する必要がありそうです。
+以上から、composite sourcesをWebで利用する場合、gzip圧縮の効率化を別途検討する必要がありそうです。
 
 例えば、CloudFrontの自動圧縮機能の利用などが考えられます。ただし、その場合でも、MartinがレスポンスするContent-typeがapplication/x-protobufであることから、[CloudFrontの自動圧縮が対応しているファイルタイプ](https://docs.aws.amazon.com/ja_jp/AmazonCloudFront/latest/DeveloperGuide/ServingCompressedFiles.html#compressed-content-cloudfront-file-types)（application/protobuf）に含まれていないため、レスポンスヘッダーを書き換えるなどの対応が必要になるかもしれません。
 
@@ -382,8 +406,10 @@ composite sourcesの圧縮なしの方であれば、パフォーマンス的に
 - Martinを使えば、composite sourcesを容易に実現できる（データソース名称をカンマ区切りでリクエストすればOK）。
 - ただし、どのレンダラーでも安定して動作させるには、データソースを未圧縮で作成しておく必要がありそう。また、最大ズームレベルを合わせておいた方がよさそう。
 - （モダンブラウザではいずれもそうであるように）クライアントがAccept-Encodingに圧縮形式をセットしてリクエストすると、Martinで統合されたタイルが圧縮されてレスポンスされる。しかし、圧縮の処理性能に難がある。
-- したがって、Martinのcomposite sourcesを利用する場合は、圧縮をMartinではないところ（Martinのデプロイ環境よりもフロント側）で実施する必要がありそう（そこまで性能を求めない場合はその限りではない）。
+- したがって、Martinのcomposite sourcesを利用する場合は、圧縮をMartinではないところ（Martinのデプロイ環境よりもフロント側）で実施する必要があるかもしれない（そこまで性能を求めない場合はその限りではない）。
 
 以上から、個人的には、MartinでComposite Sourcesを（特にプロダクション環境で）利用するにはまだ制約条件や課題がありそうという印象です。
 
-長文失礼しました！ここまで読んでくださりありがとうございました！
+ただ、性能試験については、ローカル環境で簡易的に実施しただけなので、あくまでそういった課題が出てくるかもしれないというところでご理解いただければと思います。
+
+以上、長文失礼しました！ここまで読んでくださりありがとうございました！
