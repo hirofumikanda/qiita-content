@@ -1,13 +1,13 @@
 ---
-title: 'PostGISの空間インデックスと統計情報（ANALYZE）の基本に立ち返る'
+title: PostGISの空間インデックスと統計情報（ANALYZE）の基本に立ち返る
 tags:
   - PostgreSQL
-  - PostGIS
   - Database
+  - PostGIS
   - 空間データベース
 private: false
-updated_at: '2026-01-03T00:00:00+09:00'
-id: null
+updated_at: '2026-01-10T12:39:37+09:00'
+id: a3ddf3ac57da81338775
 organization_url_name: null
 slide: false
 ignorePublish: false
