@@ -1,14 +1,14 @@
 ---
-title: 'PostGISでジオメトリを結合したいときに結局どの関数を使えばよいのか'
+title: PostGISでジオメトリを結合したいときに結局どの関数を使えばよいのか
 tags:
-  - PostgreSQL
-  - PostGIS
-  - GIS
-  - 空間データベース
   - SQL
+  - PostgreSQL
+  - GIS
+  - PostGIS
+  - 空間データベース
 private: false
-updated_at: '2026-01-10T12:00:00+09:00'
-id: null
+updated_at: '2026-01-17T20:38:43+09:00'
+id: c8af02dcc9fb325fa9ff
 organization_url_name: null
 slide: false
 ignorePublish: false
