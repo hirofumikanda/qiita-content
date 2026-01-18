@@ -2,13 +2,13 @@
 title: 'GIS入門: 座標参照系、測地系、投影法の違いを理解する'
 tags:
   - GIS
-  - 座標参照系
-  - CRS
   - 測地系
+  - CRS
   - 投影法
+  - 座標参照系
 private: false
-updated_at: '2025-12-01T00:00:00+09:00'
-id: null
+updated_at: '2026-01-18T12:23:31+09:00'
+id: 1105f9dd9cab24a1a771
 organization_url_name: null
 slide: false
 ignorePublish: false
