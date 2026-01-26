@@ -2,13 +2,13 @@
 title: GeoHashを空間インデックスとして使用する
 tags:
   - PostgreSQL
+  - geohash
   - PostGIS
-  - GeoHash
-  - 空間データベース
   - 空間インデックス
+  - 空間データベース
 private: false
-updated_at: '2026-01-18T00:00:00+09:00'
-id: null
+updated_at: '2026-01-26T23:13:46+09:00'
+id: 3268ce85e07573a367e9
 organization_url_name: null
 slide: false
 ignorePublish: false
