@@ -1,13 +1,13 @@
 ---
-title: 'MVT仕様にみる地理空間データ効率化技術'
+title: MVT仕様にみる地理空間データ効率化技術
 tags:
   - GIS
-  - vectortile
   - ProtocolBuffers
+  - vectortile
   - MapboxVectorTile
 private: false
-updated_at: '2026-01-26T12:00:00+09:00'
-id: null
+updated_at: '2026-02-07T22:49:17+09:00'
+id: 36e624f86a2cbc4c1c02
 organization_url_name: null
 slide: false
 ignorePublish: false
