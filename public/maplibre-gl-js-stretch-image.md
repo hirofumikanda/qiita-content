@@ -1,14 +1,14 @@
 ---
-title: 'MapLibre GL JSでストレッチ画像（9-slice）を表示する'
+title: MapLibre GL JSでストレッチ画像（9-slice）を表示する
 tags:
-  - MapLibre
   - JavaScript
   - GIS
-  - Web地図
   - フロントエンド
+  - web地図
+  - MapLibre
 private: false
-updated_at: '2026-02-23T12:00:00+09:00'
-id: null
+updated_at: '2026-03-01T17:19:04+09:00'
+id: e3eaf6c271f3e98c4bae
 organization_url_name: null
 slide: false
 ignorePublish: false
