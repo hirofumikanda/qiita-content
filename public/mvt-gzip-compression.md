@@ -1,15 +1,17 @@
 ---
 title: MVTの圧縮方式について
 tags:
-  - mvt
+  - MVT
   - mapbox
   - gzip
 private: false
-updated_at: ''
-id: null
+updated_at: '2026-08-13T23:01:00+09:00'
+id: e7c3ccd913047913398f
 organization_url_name: null
 slide: false
 ignorePublish: false
+posting_campaign_uuid: null
+agreed_posting_campaign_term: false
 ---
 
 # Mapbox Vector Tileはgzip圧縮で配信されている
