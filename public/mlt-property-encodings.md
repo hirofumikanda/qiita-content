@@ -3,13 +3,15 @@ title: MLTにおけるプロパティ値のエンコーディング技術
 tags:
   - MLT
   - encoding
-  - WebGIS
+  - webGIS
 private: false
-updated_at: ''
-id: null
+updated_at: '2026-09-20T23:53:11+09:00'
+id: e6e02ff2a959693deee1
 organization_url_name: null
 slide: false
 ignorePublish: false
+posting_campaign_uuid: null
+agreed_posting_campaign_term: false
 ---
 # はじめに
 
