@@ -12,6 +12,8 @@ id: c8af02dcc9fb325fa9ff
 organization_url_name: null
 slide: false
 ignorePublish: false
+posting_campaign_uuid: null
+agreed_posting_campaign_term: false
 ---
 
 ## はじめに
