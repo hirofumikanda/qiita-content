@@ -2,10 +2,10 @@
 title: Jevを使った地物の重要度スコアリング
 tags:
   - Jev
-  - WebGIS
+  - webGIS
 private: false
-updated_at: ''
-id: null
+updated_at: '2026-10-08T00:19:17+09:00'
+id: 76907eeee79c6392c822
 organization_url_name: null
 slide: false
 ignorePublish: false
