@@ -3,11 +3,11 @@ title: MartinでGeoParquetからMVTを配信する
 tags:
   - Martin
   - MapLibre
-  - mvt
-  - GeoParquet
+  - MVT
+  - geoparquet
 private: false
-updated_at: ''
-id: null
+updated_at: '2026-10-11T20:57:27+09:00'
+id: fd08d166fa50134a2e55
 organization_url_name: null
 slide: false
 ignorePublish: false
