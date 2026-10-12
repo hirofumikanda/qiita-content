@@ -2,12 +2,12 @@
 title: tippecanoeにおけるジオメトリ簡略化アルゴリズムの比較
 tags:
   - tippecanoe
-  - mvt
+  - MVT
   - Douglas-Peucker
   - Visvalingam
 private: false
-updated_at: ''
-id: null
+updated_at: '2026-10-12T22:17:46+09:00'
+id: f1eadae9eb765e52ec34
 organization_url_name: null
 slide: false
 ignorePublish: false
