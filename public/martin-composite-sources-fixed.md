@@ -4,8 +4,8 @@ tags:
   - Martin
   - MVT
 private: false
-updated_at: ''
-id: null
+updated_at: '2026-10-13T21:30:43+09:00'
+id: 4318f2d24a9f5a08f0ab
 organization_url_name: null
 slide: false
 ignorePublish: false
