@@ -1,7 +1,7 @@
 ---
 title: MapLibre GL JSのglobal stateを使った国名ラベルの言語切り替え
 tags:
-  - MapLibre GL JS
+  - MapLibre
   - mvt
 private: false
 updated_at: ''
