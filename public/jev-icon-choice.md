@@ -5,8 +5,8 @@ tags:
   - webGIS
   - MapLibre
 private: false
-updated_at: ''
-id: null
+updated_at: '2026-10-24T19:03:28+09:00'
+id: 07e2a5939734fdc96ead
 organization_url_name: null
 slide: false
 ignorePublish: false
