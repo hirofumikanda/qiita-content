@@ -2,10 +2,10 @@
 title: Martinを使ったCOGのタイル配信
 tags:
   - cog
-  - martin
+  - Martin
 private: false
-updated_at: ''
-id: null
+updated_at: '2026-10-30T21:49:48+09:00'
+id: 76c22925efff6de93d43
 organization_url_name: null
 slide: false
 ignorePublish: false
