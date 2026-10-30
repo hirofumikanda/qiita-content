@@ -183,11 +183,11 @@ curl -s http://localhost:3000/sentinel2 | jq .
 
 OpenStreetMapを背景地図として、重ね合わせて表示してみます。
 
-![スクリーンショット 2026-10-30 213655.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3924659/6d8f5622-4f3a-47ff-8051-34d8b2d1c04f.png)
+![MapLibre GL JS](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3924659/6d8f5622-4f3a-47ff-8051-34d8b2d1c04f.png)
 
 低ズームレベルのタイル含め問題なく表示されることが確認できました。
 
 # まとめ
 
-- Martin2.0では標準機能としてCOG配信することが可能
+- Martin2.0では標準機能としてCOGをXYZタイルで配信することが可能
 - ただし、COGはあらかじめXYZタイルグリッドにあわせてタイル化されている必要がある
