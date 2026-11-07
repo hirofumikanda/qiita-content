@@ -4,8 +4,8 @@ tags:
   - geoparquet
   - Parquet
 private: false
-updated_at: ''
-id: null
+updated_at: '2026-11-07T09:42:32+09:00'
+id: 6a9c8e820e81eeea131d
 organization_url_name: null
 slide: false
 ignorePublish: false
