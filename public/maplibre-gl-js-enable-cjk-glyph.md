@@ -17,31 +17,33 @@ agreed_posting_campaign_term: false
 
 MapLibre GL JS では、日本語などの CJK 文字はデフォルトではサンセリフ体のローカルフォントが使われます。
 
-styleJSON にグリフサーバーが設定されていてもそちらは参照されません。
+StyleJSON にグリフサーバーが設定されていても、デフォルトではそちらは参照されません。
 
-本記事では、日本語テキストもグリフサーバーを参照するようにする方法とその際の留意点について説明します。
+公式ドキュメントには、（CJK文字のような）帯域幅を使うグリフサーバーリクエストを防ぐのが目的と記載があります。
+
+とはいえ、英数字とフォントの種類に差異があると、文字の高さがずれたりとUXを損ねることになりかねません。
+
+本記事では、日本語テキストもグリフサーバーを参照するようにする方法を紹介します。
 
 # localIdeographFontFamily オプション
 
-マップの `localIdeographFontFamily` オプションで CJK 文字で参照するフォントの挙動を変更することができます。
+マップの `localIdeographFontFamily` オプションで CJK 文字で参照するフォントの挙動を設定することができます。
 
 https://maplibre.org/maplibre-gl-js/docs/API/type-aliases/MapOptions/#localideographfontfamily
 
-デフォルト値は `sans-serif` となっており、ローカルフォントのサンセリフ体を利用します。
+デフォルトでは `sans-serif` となっており、ローカルフォントのサンセリフ体が使われます。
 
-グリフサーバーを参照するようにするには、このオプションを `false` にする必要があります。
+これを `false` にすることで、グリフサーバーを参照するようになります。
 
 ```javascript
 localIdeographFontFamily: false,
 ```
 
-これで日本語もグリフサーバーを参照するようになりますが、これ以外にも日本語を扱う上で気を付けなければならないポイントがあります。
-
 # BMP 外のコードポイントの文字を使う場合
 
-ユニコードは、複数の面（プレーン）から構成されています。
+`localIdeographFontFamily` を `false` にするだけだと、一部の文字はグリフサーバーのフォントになってくれない場合があります。
 
-1つのプレーンには、65,536 個のコードポイントが含まれます。
+ユニコードは、複数の面（プレーン）から構成されており、1つのプレーンには、65,536 個のコードポイントが含まれます。
 
 https://ja.wikipedia.org/wiki/Unicode%E4%B8%80%E8%A6%A7%E8%A1%A8
 
@@ -49,9 +51,11 @@ https://ja.wikipedia.org/wiki/Unicode%E4%B8%80%E8%A6%A7%E8%A1%A8
 
 [maplibre / font-maker](https://github.com/maplibre/font-maker) などで、グリフを作成すると、BMP 範囲のコードポイントのグリフしか出力されません。
 
-そのため、BMP 範囲外の文字もグリフサーバーから供給するには、BMP の範囲を超えてグリフを用意しておく必要があります。
+そのため、BMP 範囲外の文字をリクエストすると、該当の文字がないため、フォールバックとしてローカルフォントが使われてしまいます。
 
-実際に一部の地名や人名で使われている漢字（𠮷（つちよし）など）は、BMP 範囲外に該当します。
+BMP 範囲外の文字もグリフサーバーから供給するには、BMP の範囲を超えてグリフを用意しておく必要があります。
+
+実際に一部の地名や人名で使われている漢字（𠮷（つちよし）など）は、BMP 範囲外に該当するので注意が必要です。
 
 # BMP 外の文字も含めてグリフデータを作成
 
@@ -59,7 +63,7 @@ font-maker のソースを少し改変すれば、BMP 範囲に限定せずに�
 
 ここでは、Noto Sans JP Regualr で試します。
 
-Google Fonts から TTF をダウンロードします。
+Google Fonts から TTF をダウンロードできます。
 
 https://fonts.google.com/selection?query=Noto+Sans
 
@@ -93,7 +97,7 @@ print(f"Non-BMP ranges: {len(non_bmp_ranges)}")
 print(f"Total ranges: {len(ranges)}")
 ```
 
-`ranges.txt` が出力されます。
+`ranges.txt` に収録されているフォントのユニコード範囲が出力されます。
 
 ```
 0
@@ -112,23 +116,23 @@ print(f"Total ranges: {len(ranges)}")
 
 # font maker で BMP に限定せずにグリフデータを出力
 
-さきほど作成した `ranges.txt` にしたがって、グリフデータを出力するように font-maker のソースを変更します。
+`ranges.txt` の範囲でグリフデータを出力するように font-maker のソースを変更します。
 
-git clone します。
+font-maker のソースを git clone します。
 
 ```bash
 git clone --recursive \
   https://github.com/maplibre/font-maker.git
 ```
 
-**main.cpp** に
+**main.cpp** に以下のヘッダー
 
 ```c++
 #include <fstream>
 #include <cstdint>
 ```
 
-を追加した上で、
+を追加した上で、ユニコードの範囲を指定している部分
 
 ```c++
 for (int i = 0; i < 65536; i += 256) {
@@ -149,7 +153,7 @@ uint32_t i;
 while (range_file >> i) {
 ```
 
-その上でビルドします。
+その上でソースをビルドします。
 
 ```bash
 sudo apt update
@@ -164,7 +168,7 @@ cmake -S . -B build
 cmake --build build -j$(nproc)
 ```
 
-ビルドが成功したら、それを使ってグリフデータを生成します。
+ビルドが成功したら、以下のコマンドでグリフデータを生成します。
 
 ```bash
 font-maker/build/font-maker \
@@ -183,7 +187,9 @@ MapLibre でBMP外の文字も含めて表示されるか試してみます。
 
 [Geolonia japanese address v2 API](https://github.com/geolonia/japanese-addresses-v2) で、青森県東北町のデータを取得し、「字仏沢」を正式名称の「字𠏹沢」に変更します。
 
-「𠏹」はユニコード U+203F9 の文字で、10進数にすると 132,089 であるため、生成したグリフの中の 131840-132095.pbf に含まれます。
+「𠏹」はユニコード U+203F9 の文字で、10進数にすると 132,089 です。
+
+生成したグリフの中の 131840-132095.pbf に含まれます。
 
 実際に表示してみたのが以下のサイトです（クリックするとリンク先に飛びます）。
 
@@ -197,7 +203,7 @@ MapLibre でBMP外の文字も含めて表示されるか試してみます。
 localIdeographFontFamily: false,
 ```
 
-としています。
+を設定しています。
 
 ブラウザの開発者ツールのネットワークタブを確認すると、131840-132095.pbf がグリフサーバにリクエストされていることがわかります。
 
@@ -205,6 +211,6 @@ localIdeographFontFamily: false,
 
 # まとめ
 
-- MapLibre で CJK フォントを使うとき、グリフサーバを利用するには map オブジェクトのオプションで `localIdeographFontFamily: false` とする必要がある。
+- MapLibre で CJK フォントを使うとき、グリフサーバを利用するには map オブジェクトのオプションで `localIdeographFontFamily: false` を設定する必要がある。
 - また、一部の小字地名などでユニコードの BMP 範囲外の文字が使われていることがあるため、利用するグリフデータにその範囲の文字が提供されているか確認しておく必要がある。
-- 自前でグリフデータを用意する場合は、必要に応じて BMP 外のグリフも作成する。fonts-maker では、そのままだと BMP 範囲のグリフしか作成されないが、一部ソースを変更することで任意の範囲のグリフを作成することが可能である。
+- 自前でグリフデータを用意する場合は、必要に応じて BMP 外のグリフも作成する。fonts-maker は、そのままだと BMP 範囲のグリフしか作成されないため、ユニコードの範囲を指定している部分のソースを変更した上で出力する。
