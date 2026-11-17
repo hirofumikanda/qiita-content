@@ -65,9 +65,13 @@ font-maker のソースを少し改変すれば、BMP 範囲に限定せずに�
 
 Google Fonts から TTF をダウンロードできます。
 
-https://fonts.google.com/selection?query=Noto+Sans
+https://fonts.google.com/noto/specimen/Noto+Sans+JP
 
 まず、以下の python スクリプトでフォントデータに収録されているユニコード範囲を抽出します。
+
+```bash
+pip install fontTools
+```
 
 ```python
 from fontTools.ttLib import TTFont
