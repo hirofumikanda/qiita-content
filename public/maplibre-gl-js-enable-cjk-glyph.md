@@ -5,7 +5,7 @@ tags:
   - Glyph
   - font
 private: false
-updated_at: '2026-11-17T13:08:54+09:00'
+updated_at: '2026-11-17T16:37:52+09:00'
 id: b32190a1170da789b822
 organization_url_name: null
 slide: false
