@@ -1,5 +1,5 @@
 ---
-title: MapLibre で日本語フォントを glyph サーバから供給する
+title: MapLibre で日本語フォントを glyph サーバから取得する
 tags:
   - MapLibre
   - Glyph
@@ -19,21 +19,28 @@ MapLibre GL JS では、日本語などの CJK 文字はデフォルトではサ
 
 StyleJSON にグリフサーバーが設定されていても、デフォルトではそちらは参照されません。
 
-公式ドキュメントには、（CJK文字のような）帯域幅を使うグリフサーバーリクエストを防ぐのが目的と記載があります。
+公式ドキュメントには、
 
-とはいえ、英数字とフォントの種類に差異があると、文字の高さがずれたりとUXを損ねることになりかねません。
+```
+The purpose of this option is to avoid bandwidth-intensive glyph server requests.
+(目的は帯域幅を使うグリフサーバーリクエストを避けるためです。)
+```
+
+と記載があります。
+
+とはいえ、英数字との間でフォントの種類に差異があると、文字の高さがずれたりとUXを損ねることになりかねません。
 
 本記事では、日本語テキストもグリフサーバーを参照するようにする方法を紹介します。
 
 # localIdeographFontFamily オプション
 
-マップの `localIdeographFontFamily` オプションで CJK 文字で参照するフォントの挙動を設定することができます。
+マップに `localIdeographFontFamily` というオプションがあり、 CJK 文字で参照するフォントの挙動を変更することができます。
 
 https://maplibre.org/maplibre-gl-js/docs/API/type-aliases/MapOptions/#localideographfontfamily
 
-デフォルトでは `sans-serif` となっており、ローカルフォントのサンセリフ体が使われます。
+デフォルトでは `sans-serif` となっており、ローカルフォントのサンセリフ体が使われるようになっています。
 
-これを `false` にすることで、グリフサーバーを参照するようになります。
+これを `false` に設定することで、グリフサーバーを参照するようにできます。
 
 ```javascript
 localIdeographFontFamily: false,
@@ -41,17 +48,19 @@ localIdeographFontFamily: false,
 
 # BMP 外のコードポイントの文字を使う場合
 
-`localIdeographFontFamily` を `false` にするだけだと、一部の文字はグリフサーバーのフォントになってくれない場合があります。
+しかし、`localIdeographFontFamily` を `false` にするだけだと、一部の文字はグリフサーバーのフォントになってくれない場合があります。
 
-ユニコードは、複数の面（プレーン）から構成されており、1つのプレーンには、65,536 個のコードポイントが含まれます。
+それは BMP 範囲外の文字の場合です。
+
+ユニコードは、複数の面（プレーン）から構成されており、1つのプレーンには、65,536 個のコードポイントが含まれています。
 
 https://ja.wikipedia.org/wiki/Unicode%E4%B8%80%E8%A6%A7%E8%A1%A8
 
-その中でも最初の第 0 面を基本多言語面（BMP / Basic Multilingual Plane）と呼び、主要な日常言語の文字が収録されています。
+その中でも最初の第 0 面を **基本多言語面（BMP / Basic Multilingual Plane）** と呼び、主要な日常言語の文字が収録されています。
 
-[maplibre / font-maker](https://github.com/maplibre/font-maker) などで、グリフを作成すると、BMP 範囲のコードポイントのグリフしか出力されません。
+[maplibre / font-maker](https://github.com/maplibre/font-maker) などで、グリフを作成すると、デフォルトでは BMP 範囲のコードポイントのグリフしか出力されません。
 
-そのため、BMP 範囲外の文字をリクエストすると、該当の文字がないため、フォールバックとしてローカルフォントが使われてしまいます。
+そのため、BMP 範囲外の文字をリクエストすると、該当の文字がないため、フォールバックしてローカルフォントが使われてしまいます。
 
 BMP 範囲外の文字もグリフサーバーから供給するには、BMP の範囲を超えてグリフを用意しておく必要があります。
 
@@ -166,7 +175,8 @@ sudo apt install -y \
   cmake \
   build-essential \
   libfreetype-dev \
-  libboost-dev
+  libboost-dev \
+  clang
 
 cmake -S . -B build
 cmake --build build -j$(nproc)
